@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Check if an argument is provided
+if [ $# -eq 0 ]; then
+  echo "No action specified. Please provide an action."
+  exit 1
+fi
+
+# Get the action argument
+action="$1"
+
+# Perform different actions based on the argument
+case "$action" in
+  compile)
+    echo "Compiling..."
+    starknet-compile .
+    ;;
+
+  compile-save)
+    echo "Compiling..."
+    mkdir -p sierra
+    starknet-compile . sierra/lending.json
+    echo "Output in sierra/lending.json"
+    ;;
+
+  test)
+    echo "Testing..."
+    cairo-test . --starknet
+    ;;
+
+  *)
+    # Invalid action
+    echo "Invalid action"
+    exit 1
+    ;;
+esac
